@@ -511,3 +511,17 @@ java_library {
 }
 
 // protolog end
+
+// Add a filegroup, not really used since all
+// these below sources are already included under framework-core-sources.
+// This is just to keep your code together.
+
+filegroup {
+    name: "TestService",
+    srcs: [
+    "rajat/testservice/ITestService.aidl",
+    "rajat/testservice/TestService.java",
+    "rajat/testservice/TestServiceManager.java",
+    ],
+    visibility: ["//visibility:public"],
+}

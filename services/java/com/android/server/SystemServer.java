@@ -231,6 +231,8 @@ import java.util.TreeSet;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 
+import rajat.testservice.*;
+
 /**
  * Entry point to {@code system_server}.
  */
@@ -1199,6 +1201,15 @@ public final class SystemServer implements Dumpable {
         t.traceBegin("WaitForDisplay");
         mSystemServiceManager.startBootPhase(t, SystemService.PHASE_WAIT_FOR_DEFAULT_DISPLAY);
         t.traceEnd();
+
+        // Start the TestService with system context (check createSystemContext)
+        try {
+            Slog.d(TAG, "Starting TestService!");
+            ServiceManager.addService("TestService", new TestService(mSystemContext));
+            Slog.d(TAG, "TestService Started");
+        } catch (Throwable e) {
+            Slog.e(TAG, "Failure starting TestService Service", e);
+        }
 
         // Only run "core" apps if we're encrypting the device.
         String cryptState = VoldProperties.decrypt().orElse("");
